@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Google Maps API Example</title>
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+    </style>
+    <script>
+        let map;
+        let geocoder;
+        let marker;
+
+        // Required because the script URL has '&callback=initMap'
+        function initMap() {
+            geocoder = new google.maps.Geocoder();
+            
+            // Initial default location (e.g., Manila)
+            const defaultLocation = { lat: 14.5995, lng: 120.9842 };
+            
+            map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 10,
+                center: defaultLocation
+            });
+
+            marker = new google.maps.Marker({
+                position: defaultLocation,
+                map: map
+            });
+        }
+
+        function searchLocation() {
+            let location = document.getElementById("locationInput").value;
+            
+            geocoder.geocode({ 'address': location }, function(results, status) {
+                if (status === 'OK') {
+                    const pos = results[0].geometry.location;
+                    map.setCenter(pos);
+                    map.setZoom(12);
+                    
+                    // Move marker to searched location
+                    marker.setPosition(pos);
+                } else {
+                    alert("Location not found! Reason: " + status);
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <h2>Google Maps Integration</h2>
+    <div id="map"></div>
+    <input type="text" id="locationInput" placeholder="Enter a location">
+    <button onclick="searchLocation()">Search Location</button>
+
+    <!-- Load Google Maps API -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5ycraSNPmlnwIFHtQZ4mRKB5Vdf2XAwY&callback=initMap"></script>
+</body>
+</html>
