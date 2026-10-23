@@ -62,3 +62,38 @@ loadUsers();
 });
 
 loadUsers();
+
+async function loadOrders() {
+    try {
+        const res = await fetch("/api/orders");
+        const orders = await res.json();
+        
+        console.log(orders); // Verify populated data in console
+
+        const container = document.getElementById("orders-container");
+        container.innerHTML = "";
+
+        orders.forEach(order => {
+            // Map through the populated products array to get their names
+            const productNames = order.products.map(p => p.name).join(", ");
+
+            const orderCard = document.createElement("div");
+            orderCard.className = "card mb-3 p-3 shadow-sm";
+            orderCard.innerHTML = `
+                <h5>User: ${order.user ? order.user.name : "Unknown"}</h5>
+                <p><strong>Products:</strong> ${productNames}</p>
+                <p><strong>Total Amount:</strong> ₱${order.totalAmount}</p>
+            `;
+            container.appendChild(orderCard);
+        });
+    } catch (err) {
+        console.error("Error loading orders:", err);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    loadUsers();
+    loadOrders();
+});
+
+
