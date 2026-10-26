@@ -23,7 +23,7 @@ type: String
 // Reference to the user who created the product
 createdBy: {
 type: mongoose.Schema.Types.ObjectId,
-ref: "users"
+ref: "User"
 }
 
 }, { timestamps: true });

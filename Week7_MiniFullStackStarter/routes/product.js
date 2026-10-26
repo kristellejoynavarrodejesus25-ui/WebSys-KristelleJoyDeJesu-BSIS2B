@@ -12,4 +12,11 @@ router.get("/", async (req, res) => {
     }
 });
 
+const { protect, authorize } = require('../middleware/authMiddleware');
+
+router.get('/admin', protect, authorize('admin'), (req, res) => {
+    res.json({ message: 'Admin access granted' });
+});
+
 module.exports = router;
+

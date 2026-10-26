@@ -12,14 +12,14 @@ app.use(express.urlencoded({ extended: true }));
 // Serve frontend
 app.use(express.static(path.join(__dirname, "public")));
 
-// API routes (using correct singular filenames matching your files)
+// API routes
 const productRoutes = require("./routes/product");
 const orderRoutes = require("./routes/order");
-const usersRouter = require("./routes/users");
+const authRoutes = require("./routes/authRoutes");
 
+app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
-app.use("/api/users", usersRouter);
 
 // Test route
 app.get("/api/health", (req, res) => res.json({ status: "ok" }));
